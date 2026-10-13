@@ -1,0 +1,42 @@
+/* ═══ 카드형 · 내 스타일 — 빠른 커스텀 줄 ═══
+   여섯 줄(공통) + 두 줄(이 시스템 고유: 자동 넘김 · 메뉴 언어). 따옴표 없이 쓴다. 저장 후 새로고침.
+   이 밖의 것(장·카드·사진 칸 삭제·추가·이동, 격자·메뉴·동작 변경)도 Claude에게 말하면 바꿔 준다. */
+
+:root {
+  /* ① 바탕 색 — 페이지 전체 바탕(원본 흰색). 짙게 하면 글자·선이 밝게 뒤집힌다 */
+  --my-bg: #FFFFFF;
+
+  /* ② 포인트 색 — 키보드 초점선 · tint 사진 덮개. 원본에는 포인트 색이 없다(none = 먹색) */
+  --my-point: none;
+
+  /* ③ 서체 짝   sans 고딕(기본) · serif 명조 · mono 고정폭 · hand 둥근 손글씨 */
+  --my-type: sans;
+
+  /* ④ 움직임   0 조용함(자동 넘김·전환 없음) · 1 기본 · 2 강함 */
+  --my-motion: 1;
+
+  /* ⑤ 밀도     0 비움 · 1 기본 · 2 꽉(글자 크게) */
+  --my-density: 1;
+
+  /* ⑥ 이미지   native 원본 비율·원색(이 사이트 처리) · original 원본 · mono 흑백 · tint 포인트 색 덮기 */
+  --my-image: native;
+
+  /* ⑦ 고유 — 카드 줄 자동 넘김(초, 항목 4개 이상 줄만 — 3개 이하 장은 늘 모두 열림)   5 기본(켬) · 8 느리게 · 0 끔(넷째 열 카드·번호 줄을 눌러야 넘어감) */
+  --ca-auto: 5;
+
+  /* ⑧ 메뉴 언어 (7주 패치)   ko 한글 시선·사람·공간·물건·기준 · en 영문 Gaze·People·Spaces·Objects·Criteria
+     — 처음에 학생에게 "메뉴를 한글로 할까요, 영문으로 할까요?" 묻고 답대로 둔다. 기본 = en 영문(기본 — 원본 영문 메뉴) */
+  --my-menu-lang: en;
+}
+
+/* ── 7주 커스텀: 첫 화면 사진 넘기기 (my-hero.js) — 새 사진이 위에서 0.8초 동안 겹쳐 나타남 ── */
+.ca-hero--full .my-hero-fade { position: absolute; inset: 0; display: block; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity .8s ease; pointer-events: none; }
+
+/* ── 7주 커스텀: 첫 화면 대표 제목 — 판(박스) 없이 흰 글자, 프리텐다드 Light(300)·자간 .04em(6주에 고른 제목 서체),
+   사진이 바뀌어도 읽히게 사진 아래쪽에 옅은 그림자 층 ── */
+:root { --my-hero-ink: #FAFAF7; }
+.ca-top--hero .ca-hero-t .ca-h1,
+.ca-top--hero .ca-hero-t .ca-h1.is-plate { color: var(--my-hero-ink); font-weight: 300; letter-spacing: .04em; text-shadow: 0 1px 14px rgba(0, 0, 0, .35); }
+.ca-top--hero .ca-h1.is-plate .ca-h1-in { background: none; padding: 0; margin-left: 0; }
+.ca-top--hero .ca-hero--full::after { content: ""; position: absolute; inset: 0; z-index: 1; pointer-events: none;
+  background: linear-gradient(to top, rgba(0, 0, 0, .38) 0%, rgba(0, 0, 0, .12) 35%, rgba(0, 0, 0, 0) 60%); }
