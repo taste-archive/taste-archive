@@ -1,0 +1,75 @@
+/* W05-A 연표형 — 토큰 (레퍼런스: The David Hockney Foundation · Chronology 실측, EXTRACTION.md §1)
+   색 hex는 이 파일과 my-style.css에만 있다. style.css·HTML은 var()만 쓴다. */
+@import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css");
+@import url("https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@300;400;700;900&family=IBM+Plex+Mono:wght@300;400;700&family=Nanum+Gothic+Coding:wght@400;700&family=Gowun+Dodum&family=Jua&display=swap");
+
+:root {
+  /* 색 — 원본 computed 값 */
+  --c-paper: #FAF8F7;      /* body background rgb(250,248,247) */
+  --c-ink: #141419;        /* body color rgb(20,20,25) */
+  --c-mute: #6E6E71;       /* 라벨·부제·비활성 탭 rgb(110,110,113) */
+  --c-dim: #CFCFD2;        /* 목록 hover 때 나머지 행 + 헤어라인 rgb(207,207,210) */
+  --c-pink: #DA89AA;       /* site-accent-1 : 로고·입력 커서선·포커스선 rgb(218,137,170) */
+  --c-white: #FFFFFF;
+  /* 연도 밑 형광펜 5색 순환 (li:nth-child(9n+k) .year span::before) */
+  --c-bar-1: #E9DDCE;
+  --c-bar-2: #A9D1D3;
+  --c-bar-3: #96CBB2;
+  --c-bar-4: #E7E4CD;
+  --c-bar-5: #E6E0E0;
+
+  /* 서체 — 원본 GT Walsheim(유료) 300/400/700/900 → 무료 대체 */
+  --f-sans: "Pretendard", system-ui, sans-serif;
+  --f-sans-heavy: "Pretendard", system-ui, sans-serif;
+  --f-serif: "Noto Serif KR", serif;
+  --f-serif-heavy: "Noto Serif KR", serif;
+  --f-mono: "IBM Plex Mono", "Nanum Gothic Coding", monospace;
+  --f-mono-heavy: "IBM Plex Mono", "Nanum Gothic Coding", monospace;
+  --f-hand: "Gowun Dodum", sans-serif;
+  --f-hand-heavy: "Jua", "Gowun Dodum", sans-serif;
+
+  /* 크기 단계 — 원본 px 그대로 (≥760 / <760) */
+  --t-nav: 13px;           /* 탭 13px 700 uppercase ls 1.196px */
+  --ls-nav: 0.092em;
+  --t-key: 24px;           /* 입력창 24px (placeholder 300 · 입력값 900) → 한 문장(300) */
+  --t-key-m: 20px;         /* 신규(모바일): 원본 모바일 placeholder 11px는 한 문장 자리로 너무 작다 */
+  --t-name: 48px;          /* 신규(한글 보정): 이름 = 입력값 900 × 2 — COMMON_RULES §2 "이름이 가장 큰 글자" */
+  --t-name-m: 36px;
+  --t-label: 14px;         /* 입력 아래 1937-2026 라벨 → 역할 */
+  --t-pv-label: 13px;      /* 미리보기 캡션 1937-TODAY 13px 700 ls .115em */
+  --ls-pv-label: 0.115em;
+  --t-arrow: 15px;         /* See 1960 → 15px italic */
+  --t-year: 21px;          /* .year 21px 900 (≥760) */
+  --t-year-m: 18px;        /* .year 18px (<760) */
+  --t-cap: 14px;           /* .caption 14px (≥760) */
+  --t-cap-m: 13px;         /* .caption 13px (<760) */
+  --t-title: 16px;         /* 신규: 이유 제목 = 캡션 첫 줄, 캡션보다 한 단계 */
+  --t-foot: 13px;          /* colophon 13px 300 ls .03em */
+  --lh-body: 1.667;        /* body line-height 1.667 */
+  --lh-key: 1.1;           /* input line-height 1.1em */
+  --lh-say: 1.42;          /* 신규(한글 보정): 한 문장 여러 줄 */
+
+  /* 틀 */
+  --gutter: 5vw;           /* .container padding 5vw */
+  --left-w: 40vw;          /* .col .fixed width 40vw */
+  --left-max: 545px;       /* max-width 545px */
+  --list-x: 56.4%;         /* 목록 시작 x 714/1265 — 오른쪽 끝까지 붙는다(two-column-flush) */
+  --list-top: 58px;        /* .col.right padding-top 58px */
+  --bump: 110px;           /* .site-header-bump 110 (≥760) */
+  --bump-m: 45px;          /* 45 (<760) */
+  --year-w: 124px;         /* .year min-width 124px */
+  --row-pad: 19px 20px 14px 0;   /* li a padding (≥760) */
+  --row-pad-s: 12px 20px 13px 0; /* (475~759) */
+  --row-pad-m: 7px 0 11px;       /* (<475) */
+  --bar-h: 13px;           /* 형광펜 높이 13px, bottom 6px */
+  --bar-o: 0.25;           /* hover opacity .25 */
+  --key-line: 1px;         /* 입력 왼쪽 선 1px solid accent */
+  --key-pad: 8px;          /* input padding-left 8px */
+
+  /* 모션 */
+  --dur-dim: 0.2s;         /* .year/.caption color .2s · 형광펜 opacity .2s */
+  --dur-pv: 0.5s;          /* 미리보기 교차 opacity .5s */
+  --dur-arrow: 0.2s;       /* 화살표 translateX(8px) .2s */
+  --arrow-shift: 8px;
+  --hold: 5000;            /* 목록을 떠난 뒤 기본 미리보기로 돌아가기까지 5000ms (hoverOutTime) */
+}
