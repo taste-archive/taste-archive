@@ -16,7 +16,7 @@
 /* 학생 요청 (2026-10-16) — 제목 밑 한 문장 글자 줄이기 (이 문장에만 쓰이는 크기 값) */
 :root { --t-key: 18px; --t-key-m: 16px; }
 
-/* 학생 요청 (2026-10-16) — 여러 장을 2.5초마다, 기억이 떠오르듯 흐릿하게 겹쳐 들어와 또렷해지게 (gallery.js) */
+/* 학생 요청 (2026-10-16) — 여러 장을 3초마다, 기억이 떠오르듯 흐릿하게 겹쳐 들어와 또렷해지게 (gallery.js) */
 .w5c-memo { position: relative; overflow: hidden; }
 .w5c-memo > img:first-child { transform-origin: 50% 60%; }
 .w5c-memo.is-drift > img:first-child { animation: w5c-drift 2.6s ease-out both; }           /* 머무는 동안 아주 천천히 다가옴 */
@@ -32,6 +32,8 @@
   .w5c-fig.w5c-multi img { display: block; grid-area: 1 / 1; opacity: 0; filter: blur(10px); transform: scale(1.06);
     transition: opacity 1.2s ease, filter 1.2s ease, transform 1.2s cubic-bezier(.2,.7,.2,1); }
   .w5c-fig.w5c-multi img.is-on { opacity: 1; filter: blur(0); transform: scale(1); }
+  .w5c-fig.w5c-multi img.is-on { z-index: 2; }
+  .w5c-fig.w5c-multi img.is-prev { z-index: 1; opacity: 1; filter: none; transform: none; transition: none; }   /* 다음 사진이 다 떠오를 때까지 아래에서 받친다 */
 }
 @media (prefers-reduced-motion: reduce) {
   .w5c-memo.is-drift > img:first-child { animation: none; }
@@ -66,7 +68,7 @@ html.m-0 .w5c-memo__over.is-in, html.m-0 .w5c-fig.w5c-multi img { transition: no
   .w5c-list.is-group .w5c-reason .w5c-year span::before { opacity: var(--bar-o); }
 }
 @media (min-width: 640px) {
-  .w5c-list.is-group .w5c-reason { outline: 2px solid var(--point); outline-offset: -2px; }   /* 의미 탭: 1·2·3 모두 분홍 테두리 */
+  .w5c-list.is-group .w5c-reason { outline: 1px solid var(--point); outline-offset: -1px; }   /* 의미 탭: 1·2·3 모두 분홍 테두리 (크리틱: 2px → 1px) */
 }
 
 /* ── 크리틱 반영 (2026-10-16) ── */
@@ -82,8 +84,9 @@ html.m-0 .w5c-memo__over.is-in, html.m-0 .w5c-fig.w5c-multi img { transition: no
   .w5c-pv.is-default figcaption { display: none; }
 }
 /* 3. 출처를 지운 빈 바닥 칸 정리 — 여백은 목록 아래에 둔다 */
-.w5c-foot { display: none; }
-.w5c-right { padding-bottom: 12vh; }
+/* 크리틱: 남의 사진이라 출처 한 줄은 남긴다 — 작고 흐린 글씨로 목록 아래 */
+.w5c-foot { padding-top: 28px; padding-bottom: 10vh; }
+.w5c-credit { color: var(--mute); }
 /* 4. 표지 없는 마지막 줄: 폰에서 빈 줄이 생기지 않게 */
 @media (max-width: 474px) {
   #take .w5c-year { display: none; }

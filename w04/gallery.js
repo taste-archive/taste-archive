@@ -1,10 +1,10 @@
 /* 여러 장 미리보기 (학생 요청 2026-10-16) — sig.js 뒤에 실행. sig.js는 고치지 않는다.
-   줄을 가리키는 동안 왼쪽 미리보기에서 사진이 2.5초마다 한 장씩, 기억이 떠오르듯 흐릿하게 겹쳐 들어왔다가 또렷해진다.
+   줄을 가리키는 동안 왼쪽 미리보기에서 사진이 3초마다 한 장씩, 기억이 떠오르듯 흐릿하게 겹쳐 들어왔다가 또렷해진다.
    - 의미 줄: sig.js가 만든 미리보기 사진 위에 겹침 사진을 하나 더 두고 넘긴다
    - 소개 줄: 미리보기가 없어서 새로 만들어 붙인다 (sig.js는 가리킬 때 row._pv 를 읽는다)
    - 폰(줄 안 사진이 보일 때): 줄 안 사진도 같은 방식으로 넘어간다 (CSS가 겹쳐 놓음) */
 (function () {
-  var STEP = 2500;
+  var STEP = 3000;
   var preview = document.querySelector(".w5c-preview");
   if (!preview) return;
   function ready(src) {
@@ -79,7 +79,10 @@
     inl.forEach(function (el, n) { el.classList.toggle("is-on", n === 0); });
     setInterval(function () {
       if (getComputedStyle(fig).display === "none") return;
-      inl[k].classList.remove("is-on"); k = (k + 1) % inl.length; inl[k].classList.add("is-on");
+      /* 이전 사진은 아래에 그대로 두고(is-prev), 다음 사진만 위로 떠오르게 — 둘이 함께 흐려져 하얗게 비는 순간을 없앤다 */
+      inl.forEach(function (el) { el.classList.remove("is-prev"); });
+      inl[k].classList.remove("is-on"); inl[k].classList.add("is-prev");
+      k = (k + 1) % inl.length; inl[k].classList.add("is-on");
     }, STEP);
   });
 })();
