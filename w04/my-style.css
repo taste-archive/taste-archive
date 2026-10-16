@@ -40,14 +40,15 @@
 html.m-0 .w5c-memo.is-drift > img:first-child { animation: none; }
 html.m-0 .w5c-memo__over.is-in, html.m-0 .w5c-fig.w5c-multi img { transition: none; }
 
-/* 학생 요청 (2026-10-16) — 기본·소개 상태: 사진 대신 같은 크기 칸 가운데에 나의 시선 아카이브 · 제목 · 본문 */
+/* 학생 요청 (2026-10-16) — 기본·소개 상태: 사진 대신 같은 크기 칸 가운데에 나의 시선 아카이브 · 제목 · 본문
+   크리틱 반영: 시스템 굵은 서체·900, 제목이 화면에서 가장 큰 글자, 작은 글씨는 대비 4.5:1 이상(--mute), 간격으로 묶음 표시 */
 .w5c-card__kicker, .w5c-card__title { display: none; }
 @media (min-width: 640px) {
-  .w5c-pv.is-default { width: var(--card-w, 410px); height: var(--card-h, 546px); display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; gap: 14px; padding: 0 24px; box-sizing: border-box; }
+  .w5c-pv.is-default { width: var(--card-w, 410px); height: var(--card-h, 546px); display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 0 28px; box-sizing: border-box; }
   .w5c-pv.is-default .w5c-pv__cover, .w5c-pv.is-default figcaption { display: none; }
-  .w5c-pv.is-default .w5c-card__kicker { display: block; margin: 0; color: var(--point); font-size: 14px; letter-spacing: .02em; }
-  .w5c-pv.is-default .w5c-card__title { display: block; margin: 0; font-size: 34px; font-weight: 800; line-height: 1.1; letter-spacing: -.01em; }
-  .w5c-pv.is-default .w5c-say { margin: 0 auto; }
+  .w5c-pv.is-default .w5c-card__kicker { display: block; margin: 0 0 10px; color: var(--mute); font-size: var(--t-label); font-weight: 700; letter-spacing: .04em; line-height: 1.4; }
+  .w5c-pv.is-default .w5c-card__title { display: block; margin: 0 0 20px; font-family: var(--f-heavy); font-weight: var(--w-heavy); font-size: clamp(30px, 3.2vw, var(--t-name)); line-height: var(--lh-key); letter-spacing: -.015em; white-space: nowrap; }
+  .w5c-pv.is-default .w5c-say { margin: 0 auto; max-width: 17em; line-height: 1.55; text-wrap: balance; }   /* 한 단어만 다음 줄로 떨어지지 않게 */
 }
 
 /* 학생 요청 (2026-10-16) — 노트북 화면에서 위쪽 큰 제목 숨기기 (글 칸 안 제목만 남김). h1은 읽기 도구용으로 남긴다 */
@@ -67,3 +68,25 @@ html.m-0 .w5c-memo__over.is-in, html.m-0 .w5c-fig.w5c-multi img { transition: no
 @media (min-width: 640px) {
   .w5c-list.is-group .w5c-reason { outline: 2px solid var(--point); outline-offset: -2px; }   /* 의미 탭: 1·2·3 모두 분홍 테두리 */
 }
+
+/* ── 크리틱 반영 (2026-10-16) ── */
+/* 1. 왼쪽 사진·글 칸이 화면 높이를 넘지 않게 — 위 여백(고정 칸 시작 위치) + 아래 여백 40px 안에 맞춘다 */
+@media (min-width: 760px) {
+  .w5c-pv:not(.is-default) .w5c-pv__pic img { max-height: calc(100svh - var(--bump) - 10px - 40px); }
+}
+@media (min-width: 640px) and (max-width: 759px) {
+  .w5c-pv:not(.is-default) .w5c-pv__pic img { max-height: calc(100svh - var(--bump-m) - 40px - 40px); }
+}
+/* 2. 폰: 이름이 두 번 나오지 않게 기본 칸의 영문 라벨을 숨긴다 */
+@media (max-width: 639px) {
+  .w5c-pv.is-default figcaption { display: none; }
+}
+/* 3. 출처를 지운 빈 바닥 칸 정리 — 여백은 목록 아래에 둔다 */
+.w5c-foot { display: none; }
+.w5c-right { padding-bottom: 12vh; }
+/* 4. 표지 없는 마지막 줄: 폰에서 빈 줄이 생기지 않게 */
+@media (max-width: 474px) {
+  #take .w5c-year { display: none; }
+}
+/* 5. 목록 문장: 마지막 한 단어만 다음 줄로 떨어지지 않게 */
+.w5c-seen, .w5c-take, .w5c-cap p { text-wrap: pretty; }
